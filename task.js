@@ -26,13 +26,13 @@ app.get('/tasks', function (request, response) {
     }
   ]};
 
-  const username = request.query.username;
+//   const username = request.query.username;
 
-  const TaskList = {
-    message: "Hello " + username
-  };
-  response.json(TaskList);
-})
+//   const TaskList = {
+//     message: "Hello " + username
+//   };
+//   response.json(TaskList);
+// })
 
 
 module.exports.handler = serverless(app);
