@@ -1,37 +1,48 @@
 const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
+app.use(express.json());
+const databaseService = require ('./databaseservice');
 
-app.get('/tasks', function (request, response) {
-
-  const TaskList =
-  {
-    task: [ {
-      TaskId: 1,
-      Description: "LearnMySql",
-      UserId: "1",
-      Completed: false
-    },
-    {
-      TaskId: 2,
-      Description: "LearnJS",
-      UserId: "1",
-      Completed: false
-    },
-    {
-      TaskId: 3,
-      Description: "LearnNodeJS",
-      UserId: "2",
-      Completed: false
-    }
-  ]};
-
-  // const username = request.query.username;
-
-  // const TaskList = {
-  //   message: "Hello " + username
-  // };
-  response.json(TaskList);
+app.get("/tasks", function (request, response) {
+  databaseService.getTasks().then(function(tasks){
+    response.json(tasks);
+  })
+  .catch(function(error) {
+    response.status(500);
+    response.json(error);
+  });
 })
+
+app.post("/tasks", function (request, response) {
+
+  const taskDescription = request.body.taskDescription;
+  databaseService.saveTask(taskDescription).then(function(results){
+    response.json(results);
+  })
+  .catch(function(error) {
+    response.status(500);
+    response.json(error);
+  });
+})
+
+app.delete('/tasks/:taskId', function (request, response) {
+
+  const taskIdToBeDeleted = request.params.taskId;
+ 
+  let someResponse = {
+    message: "You have deleted a task." + taskIdToBeDeleted
+  };
+
+    if(taskIdToBeDeleted > 3) {
+      response.status(404);
+      someResponse = {
+        message: "Task" + taskIdToBeDeleted + "does not exist."
+      };
+    }
+
+
+  response.json(someResponse);
+});
 
 module.exports.handler = serverless(app);
