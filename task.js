@@ -29,17 +29,21 @@ app.post("/tasks", function (request, response) {
 app.delete('/tasks/:taskId', function (request, response) {
 
   const taskIdToBeDeleted = request.params.taskId;
- 
+  databaseService.deleteTask(taskIdToBeDeleted).then(function(results){
+    response.json(results);
+  });
+
+
   let someResponse = {
     message: "You have deleted a task." + taskIdToBeDeleted
   };
 
-    if(taskIdToBeDeleted > 3) {
-      response.status(404);
-      someResponse = {
-        message: "Task" + taskIdToBeDeleted + "does not exist."
-      };
-    }
+    // if(taskIdToBeDeleted > 3) {
+    //   response.status(404);
+    //   someResponse = {
+    //     message: "Task" + taskIdToBeDeleted + "does not exist."
+    //   };
+    // }
 
 
   response.json(someResponse);

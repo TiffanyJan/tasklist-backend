@@ -35,7 +35,7 @@ function saveTask(taskdescription){
             userId: 1,
             completed: false
         };
-        connection.query('INSERT INTO Tasks SET ?', postData, function (error, results, fields) {
+        connection.query('INSERT INTO Tasks SET ?', postData, function (error, results) {
             if (error) {
                 connection.destroy();
                 return reject(error);
@@ -48,9 +48,31 @@ function saveTask(taskdescription){
     });
 }
 
+function deleteTask(taskIdToBeDeleted){
+    const connection = getDatabaseConnection();
+
+    return new Promise (function(resolve,reject){
+
+        connection.query('DELETE FROM Tasks WHERE TaskId = ?', taskIdToBeDeleted, function (error, results) {
+
+            if (error) {
+                connection.destroy();
+                return reject(error);
+            }
+            else {
+                connection.end();
+                return resolve(results);
+            }
+        });
+    });
+}
+
+
+
 module.exports = {
     getTasks,
-    saveTask
+    saveTask,
+    deleteTask
 }
 
 
