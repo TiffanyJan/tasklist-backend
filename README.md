@@ -23,6 +23,7 @@ This will return an array of tasks when inserting the task individually into the
 The Description is a string value which allows the use to manually type a new task into the task list each time.
 
 The UserId, generted as a number, will refer to the person who will need to complete the task as follows:
+```
 +--------+-------+
 | UserId | Name  |
 +--------+-------+
@@ -30,6 +31,7 @@ The UserId, generted as a number, will refer to the person who will need to comp
 |      2 | Susan |
 +--------+-------+
 
+```
 Each time a task is added, a small counter within the header will automatically change each time in numerical value depending on the number of tasks added:
 
     class Header extends React.Component {
